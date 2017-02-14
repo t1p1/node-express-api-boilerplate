@@ -39,7 +39,8 @@ router.post('/games/categories', function(req, res){
   //choose random items from category
   //
   console.log(req.body);
-  res.json(req.body);
+  var sessionId = req.body.sessionId;
+  res.json({sessionId: sessionId});
 
   
   //var name = req.body.name;
