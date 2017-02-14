@@ -23,8 +23,8 @@
   	// simple script to pull data from our database and display on page
 		$.getJSON('/api/get', function(data) {
 				console.log(data);
-				var animals = data.animals;
-				animals.forEach(function(e){
+				var categorys = data.categorys;
+				categorys.forEach(function(e){
 					var htmlToAppend = '<p>'+e.name+'</p>'+
 					'<img src="'+e.url+'" />';
 					$('body').append(htmlToAppend);

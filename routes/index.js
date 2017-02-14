@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // our db model
-var Animal = require("../models/model.js");
+var Category = require("../models/model.js");
 
 // simple route to render am HTML form that can POST data to our server
 // NOTE that this is not a standard API route, and is really for testing
@@ -41,8 +41,8 @@ router.get('/sample-page', function(req,res){
 
 // /**
 //  * POST '/api/create'
-//  * Receives a POST request of the new animal, saves to db, responds back
-//  * @param  {Object} req. An object containing the different attributes of the Animal
+//  * Receives a POST request of the new category, saves to db, responds back
+//  * @param  {Object} req. An object containing the different attributes of the Category
 //  * @return {Object} JSON
 //  */
 
@@ -52,44 +52,34 @@ router.post('/api/create', function(req, res){
 
     // pull out the information from the req.body
     var name = req.body.name;
-    var age = req.body.age;
-    var tags = req.body.tags.split(","); // split string into array
-    var weight = req.body.weight;
-    var color = req.body.color;
-    var url = req.body.url;
+    var items = req.body.tags.split(","); // split string into array
 
     // hold all this data in an object
     // this object should be structured the same way as your db model
-    var animalObj = {
+    var categoryObj = {
       name: name,
-      age: age,
-      tags: tags,
-      description: {
-        weight: weight,
-        color: color
-      },
-      url: url
+      items: items
     };
 
-    // create a new animal model instance, passing in the object
-    var animal = new Animal(animalObj);
+    // create a new category model instance, passing in the object
+    var category = new Category(categoryObj);
 
-    // now, save that animal instance to the database
+    // now, save that category instance to the database
     // mongoose method, see http://mongoosejs.com/docs/api.html#model_Model-save    
-    animal.save(function(err,data){
+    category.save(function(err,data){
       // if err saving, respond back with error
       if (err){
-        var error = {status:'ERROR', message: 'Error saving animal'};
+        var error = {status:'ERROR', message: 'Error saving category'};
         return res.json(error);
       }
 
-      console.log('saved a new animal!');
+      console.log('saved a new category!');
       console.log(data);
 
-      // now return the json data of the new animal
+      // now return the json data of the new category
       var jsonData = {
         status: 'OK',
-        animal: data
+        category: data
       }
 
       return res.json(jsonData);
@@ -99,8 +89,8 @@ router.post('/api/create', function(req, res){
 
 // /**
 //  * GET '/api/get/:id'
-//  * Receives a GET request specifying the animal to get
-//  * @param  {String} req.params.id - The animalId
+//  * Receives a GET request specifying the category to get
+//  * @param  {String} req.params.id - The categoryId
 //  * @return {Object} JSON
 //  */
 
@@ -109,18 +99,18 @@ router.get('/api/get/:id', function(req, res){
   var requestedId = req.params.id;
 
   // mongoose method, see http://mongoosejs.com/docs/api.html#model_Model.findById
-  Animal.findById(requestedId, function(err,data){
+  Category.findById(requestedId, function(err,data){
 
     // if err or no user found, respond with error 
     if(err || data == null){
-      var error = {status:'ERROR', message: 'Could not find that animal'};
+      var error = {status:'ERROR', message: 'Could not find that category'};
        return res.json(error);
     }
 
-    // otherwise respond with JSON data of the animal
+    // otherwise respond with JSON data of the category
     var jsonData = {
       status: 'OK',
-      animal: data
+      category: data
     }
 
     return res.json(jsonData);
@@ -130,17 +120,17 @@ router.get('/api/get/:id', function(req, res){
 
 // /**
 //  * GET '/api/get'
-//  * Receives a GET request to get all animal details
+//  * Receives a GET request to get all category details
 //  * @return {Object} JSON
 //  */
 
 router.get('/api/get', function(req, res){
 
   // mongoose method to find all, see http://mongoosejs.com/docs/api.html#model_Model.find
-  Animal.find(function(err, data){
-    // if err or no animals found, respond with error 
+  Category.find(function(err, data){
+    // if err or no categorys found, respond with error 
     if(err || data == null){
-      var error = {status:'ERROR', message: 'Could not find animals'};
+      var error = {status:'ERROR', message: 'Could not find categorys'};
       return res.json(error);
     }
 
@@ -148,7 +138,7 @@ router.get('/api/get', function(req, res){
 
     var jsonData = {
       status: 'OK',
-      animals: data
+      categorys: data
     } 
 
     res.json(jsonData);
@@ -159,7 +149,7 @@ router.get('/api/get', function(req, res){
 
 // /**
 //  * GET '/api/search'
-//  * Receives a GET request to search an animal
+//  * Receives a GET request to search an category
 //  * @return {Object} JSON
 //  */
 router.get('/api/search', function(req,res){
@@ -168,15 +158,15 @@ router.get('/api/search', function(req,res){
   var searchTerm = req.query.name;
   console.log("we are searching for " + searchTerm);
 
-  // let's find that animal
-  Animal.find({name: searchTerm}, function(err,data){
+  // let's find that category
+  Category.find({name: searchTerm}, function(err,data){
     // if err, respond with error 
     if(err){
       var error = {status:'ERROR', message: 'Something went wrong'};
       return res.json(error);
     }
 
-    //if no animals, respond with no animals message
+    //if no categorys, respond with no categorys message
     if(data==null || data.length==0){
       var message = {status:'NO RESULTS', message: 'We couldn\'t find any results'};
       return res.json(message);      
@@ -186,7 +176,7 @@ router.get('/api/search', function(req,res){
 
     var jsonData = {
       status: 'OK',
-      animals: data
+      categorys: data
     } 
 
     res.json(jsonData);        
@@ -196,9 +186,9 @@ router.get('/api/search', function(req,res){
 
 // /**
 //  * POST '/api/update/:id'
-//  * Receives a POST request with data of the animal to update, updates db, responds back
-//  * @param  {String} req.params.id - The animalId to update
-//  * @param  {Object} req. An object containing the different attributes of the Animal
+//  * Receives a POST request with data of the category to update, updates db, responds back
+//  * @param  {String} req.params.id - The categoryId to update
+//  * @param  {Object} req. An object containing the different attributes of the Category
 //  * @return {Object} JSON
 //  */
 
@@ -251,22 +241,22 @@ router.post('/api/update/:id', function(req, res){
 
     console.log('the data to update is ' + JSON.stringify(dataToUpdate));
 
-    // now, update that animal
+    // now, update that category
     // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate  
-    Animal.findByIdAndUpdate(requestedId, dataToUpdate, function(err,data){
+    Category.findByIdAndUpdate(requestedId, dataToUpdate, function(err,data){
       // if err saving, respond back with error
       if (err){
-        var error = {status:'ERROR', message: 'Error updating animal'};
+        var error = {status:'ERROR', message: 'Error updating category'};
         return res.json(error);
       }
 
-      console.log('updated the animal!');
+      console.log('updated the category!');
       console.log(data);
 
       // now return the json data of the new person
       var jsonData = {
         status: 'OK',
-        animal: data
+        category: data
       }
 
       return res.json(jsonData);
@@ -277,8 +267,8 @@ router.post('/api/update/:id', function(req, res){
 
 /**
  * GET '/api/delete/:id'
- * Receives a GET request specifying the animal to delete
- * @param  {String} req.params.id - The animalId
+ * Receives a GET request specifying the category to delete
+ * @param  {String} req.params.id - The categoryId
  * @return {Object} JSON
  */
 
@@ -287,9 +277,9 @@ router.get('/api/delete/:id', function(req, res){
   var requestedId = req.params.id;
 
   // Mongoose method to remove, http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove
-  Animal.findByIdAndRemove(requestedId,function(err, data){
+  Category.findByIdAndRemove(requestedId,function(err, data){
     if(err || data == null){
-      var error = {status:'ERROR', message: 'Could not find that animal to delete'};
+      var error = {status:'ERROR', message: 'Could not find that category to delete'};
       return res.json(error);
     }
 
