@@ -1,20 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-
+var s = require("underscore.string");
 // our db model
 var Category = require("../models/model.js");
 
 // simple route to render am HTML form that can POST data to our server
 // NOTE that this is not a standard API route, and is really for testing
-router.get('/create-pet', function(req,res){
-  res.render('pet-form.html')
+router.get('/create-category', function(req,res){
+  res.render('category-form.html')
 })
 
 // simple route to render an HTML page that pulls data from our server and displays it on a page
 // NOTE that this is not a standard API route, and is really for testing
-router.get('/show-pets', function(req,res){
-  res.render('show-pets.html')
+router.get('/show-categories', function(req,res){
+  res.render('show-categories.html')
 })
 
 /**
@@ -52,7 +52,14 @@ router.post('/api/create', function(req, res){
 
     // pull out the information from the req.body
     var name = req.body.name;
-    var items = req.body.tags.split(","); // split string into array
+    var items = req.body.items.split(","); // split string into array
+
+    for (var i = 0; i < items.length; i++) {
+      items[i] = s(items[i]).trim().toLowerCase().value();
+    }
+
+    console.log("DEBUG:");
+    console.log(items);
 
     // hold all this data in an object
     // this object should be structured the same way as your db model
