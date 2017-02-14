@@ -42,19 +42,19 @@ router.post('/games/categories', function(req, res){
   var user_entities = [{
       name: 'test-me',
       // sessionId: sessionId,
-      extend: true,
+      extend: false,
       entries: [
           {
-              value: 'Firefox',
-              synonyms: ['Firefox']
+              value: 'Paco',
+              synonyms: ['Esteban']
           },
           {
-              value: 'XCode',
-              synonyms: ['XCode']
+              value: 'Mary',
+              synonyms: ['Quite Contrary']
           },
           {
-              value: 'Sublime Text',
-              synonyms: ['Sublime Text']
+              value: 'Erik',
+              synonyms: ['Thor']
           }
       ]
   }];
