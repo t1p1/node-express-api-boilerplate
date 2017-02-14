@@ -4,17 +4,15 @@ var mongoose = require('mongoose');
 var s = require("underscore.string");
 // our db model
 var Category = require("../models/model.js");
+// api.ai 
+var apiai = require('apiai');
+
+var apiapp = apiai(process.env.APIAI_TOKEN);
 
 // simple route to render am HTML form that can POST data to our server
 // NOTE that this is not a standard API route, and is really for testing
 router.get('/create-category', function(req,res){
   res.render('category-form.html')
-})
-
-// simple route to render an HTML page that pulls data from our server and displays it on a page
-// NOTE that this is not a standard API route, and is really for testing
-router.get('/show-categories', function(req,res){
-  res.render('show-categories.html')
 })
 
 /**
@@ -34,10 +32,20 @@ router.get('/', function(req, res) {
   res.json(jsonData)
 });
 
-// simple route to show an HTML page
-router.get('/sample-page', function(req,res){
-  res.render('sample.html')
-})
+
+router.post('/games/categories', function(req, res){
+
+  //choose random category
+  //choose random items from category
+  //
+  console.log(req.body);
+  res.json(req.body);
+
+  
+  //var name = req.body.name;
+
+});
+
 
 // /**
 //  * POST '/api/create'
