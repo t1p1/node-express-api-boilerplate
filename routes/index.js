@@ -81,7 +81,7 @@ router.post('/games/categories', function(req, res){
     //     console.log(error);
     // });
 
-    request.end();
+    //request.end();
 });
 
 user_entities_request.on('error', function(error) {
