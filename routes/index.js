@@ -34,9 +34,10 @@ router.get('/', function(req, res) {
 
 
 router.post('/games/categories', function(req, res){
-  //choose random category
-  //choose random items from category
-  //
+
+  console.log("DEBUG: webhook post body");
+  console.log(req.body);
+  console.log("////");
 
   var sessionId = req.body.sessionId; 
   var user_entities = [{
@@ -64,13 +65,24 @@ router.post('/games/categories', function(req, res){
       entities: user_entities
   };
 
-  console.log (user_entities_body);
-
   var user_entities_request = apiapp.userEntitiesRequest(user_entities_body);
 
   user_entities_request.on('response', function(response) {
     console.log('User entities response: ');
     console.log(response);
+
+    request(options, function (error, response, body) {
+      console.log("OUR GET REQUEST:")
+      if (!error && response.statusCode == 200) {
+        console.log("YAY WE HAVE SOMETHING");
+        console.log(body); 
+        res.json(body);
+      }else{
+        console.log("BOO WE HAVE NOTHING");
+        console.log(error);
+        res.json(error);
+      }
+    })
 
     // var request = apiapp.textRequest('Open application Firefox', {sessionId: "123"});
 
@@ -101,19 +113,6 @@ var options = {
     'Authorization': 'Bearer 0ed8a24261504f2fafa95aaf6a07f8f3'
   }
 };
-
-request(options, function (error, response, body) {
-  console.log("OUR GET REQUEST:")
-  if (!error && response.statusCode == 200) {
-    console.log("YAY WE HAVE SOMETHING");
-    console.log(body); 
-    res.json(body);
-  }else{
-    console.log("BOO WE HAVE NOTHING");
-    console.log(error);
-    res.json(error);
-  }
-})
 
 });
 
