@@ -41,7 +41,7 @@ router.post('/games/categories', function(req, res){
   var user_entities = [{
       name: 'test-me',
       // sessionId: sessionId,
-      extend: false,
+      extend: true,
       entries: [
           {
               value: 'Firefox',
@@ -69,17 +69,17 @@ router.post('/games/categories', function(req, res){
     console.log('User entities response: ');
     console.log(response);
 
-    var request = apiapp.textRequest('Open application Firefox', {sessionId: "123"});
+    // var request = apiapp.textRequest('Open application Firefox', {sessionId: "123"});
 
-    request.on('response', function(response) {
-        console.log('Query response: ');
-        console.log(response);
-    });
+    // request.on('response', function(response) {
+    //     console.log('Query response: ');
+    //     console.log(response);
+    // });
 
-    request.on('error', function(error) {
-        console.log("On Error:");
-        console.log(error);
-    });
+    // request.on('error', function(error) {
+    //     console.log("On Error:");
+    //     console.log(error);
+    // });
 
     request.end();
 });
