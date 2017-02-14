@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var request = require('request');
 var s = require("underscore.string");
 // our db model
 var Category = require("../models/model.js");
@@ -65,7 +66,7 @@ router.post('/games/categories', function(req, res){
 
   console.log (user_entities_body);
 
-  var user_entities_request = apiapp.userEntitiesRequest(user_entities_body, {type: 'POST'});
+  var user_entities_request = apiapp.userEntitiesRequest(user_entities_body);
 
   user_entities_request.on('response', function(response) {
     console.log('User entities response: ');
@@ -91,8 +92,26 @@ user_entities_request.on('error', function(error) {
 });
 
 user_entities_request.end();
-  
-res.json({sessionId: sessionId});
+
+
+var options = {
+  url: 'https://api.api.ai/v1/userEntities/' + user_entities[0].name + '?sessionId=' + sessionId ,
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer 0ed8a24261504f2fafa95aaf6a07f8f3'
+  }
+};
+
+request(options, function (error, response, body) {
+  console.log()
+  if (!error && response.statusCode == 200) {
+    console.log(body); 
+    res.json(body);
+  }else{
+    console.log(error);
+    res.json(error);
+  }
+})
 
 });
 
