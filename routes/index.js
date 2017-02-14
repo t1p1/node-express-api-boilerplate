@@ -103,11 +103,13 @@ var options = {
 };
 
 request(options, function (error, response, body) {
-  console.log()
+  console.log("OUR GET REQUEST:")
   if (!error && response.statusCode == 200) {
+    console.log("YAY WE HAVE SOMETHING");
     console.log(body); 
     res.json(body);
   }else{
+    console.log("BOO WE HAVE NOTHING");
     console.log(error);
     res.json(error);
   }
