@@ -63,7 +63,9 @@ router.post('/games/categories', function(req, res){
       entities: user_entities
   };
 
-  var user_entities_request = apiapp.userEntitiesRequest(user_entities_body);
+  console.log (user_entities_body);
+
+  var user_entities_request = apiapp.userEntitiesRequest(user_entities_body, {type: 'POST'});
 
   user_entities_request.on('response', function(response) {
     console.log('User entities response: ');
