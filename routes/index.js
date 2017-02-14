@@ -39,7 +39,7 @@ router.post('/games/categories', function(req, res){
 
   var sessionId = req.body.sessionId; 
   var user_entities = [{
-      name: 'Application',
+      name: 'test-me',
       // sessionId: sessionId,
       extend: false,
       entries: [
