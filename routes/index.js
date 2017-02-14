@@ -6,7 +6,6 @@ var s = require("underscore.string");
 var Category = require("../models/model.js");
 // api.ai 
 var apiai = require('apiai');
-
 var apiapp = apiai(process.env.APIAI_TOKEN);
 
 // simple route to render am HTML form that can POST data to our server
@@ -34,16 +33,64 @@ router.get('/', function(req, res) {
 
 
 router.post('/games/categories', function(req, res){
-
   //choose random category
   //choose random items from category
   //
-  console.log(req.body);
-  var sessionId = req.body.sessionId;
-  res.json({sessionId: sessionId});
 
+  var sessionId = req.body.sessionId; 
+  var user_entities = [{
+      name: 'Application',
+      // sessionId: sessionId,
+      extend: false,
+      entries: [
+          {
+              value: 'Firefox',
+              synonyms: ['Firefox']
+          },
+          {
+              value: 'XCode',
+              synonyms: ['XCode']
+          },
+          {
+              value: 'Sublime Text',
+              synonyms: ['Sublime Text']
+          }
+      ]
+  }];
+
+  var user_entities_body = {
+      sessionId: sessionId,
+      entities: user_entities
+  };
+
+  var user_entities_request = apiapp.userEntitiesRequest(user_entities_body);
+
+  user_entities_request.on('response', function(response) {
+    console.log('User entities response: ');
+    console.log(response);
+
+    var request = apiapp.textRequest('Open application Firefox', {sessionId: "123"});
+
+    request.on('response', function(response) {
+        console.log('Query response: ');
+        console.log(response);
+    });
+
+    request.on('error', function(error) {
+        console.log("On Error:");
+        console.log(error);
+    });
+
+    request.end();
+});
+
+user_entities_request.on('error', function(error) {
+    console.log(error);
+});
+
+user_entities_request.end();
   
-  //var name = req.body.name;
+res.json({sessionId: sessionId});
 
 });
 
