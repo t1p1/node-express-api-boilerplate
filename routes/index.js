@@ -39,7 +39,7 @@ router.post('/games/categories', function(req, res){
   console.log(req.body);
 
   var sessionId = req.body.sessionId; 
-  var action = req.body.action;
+  var action = req.body.result.action;
 
   if (action === 'game.1.start'){
       console.log("GAME 1");
