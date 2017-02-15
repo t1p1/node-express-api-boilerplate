@@ -82,12 +82,7 @@ router.post('/games/categories', function(req, res){
       var entityEntries = [
         {
           value: gameData.name.toLowerCase(),
-          synonyms: [gameData.name.toLowerCase(),
-                    "they are all" + gameData.name.toLowerCase(),
-                    "I think they are " + gameData.name.toLowerCase(),
-                    "all are " + gameData.name.toLowerCase(),
-                    "I guess its" + gameData.name.toLowerCase(),
-                    "maybe they are" + gameData.name.toLowerCase()]
+          synonyms: [gameData.name.toLowerCase()]
         }
       ]
 
