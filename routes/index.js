@@ -98,8 +98,8 @@ router.post('/games/categories', function(req, res){
         console.log(response);
 
         var newResponse = {
-          "speech": "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+gameData.items[1]+", a "+gameData.items[2]+" and a "+gameData.items[3]+". What do these things have in common?”",
-          "displayText": "testing testing testing.",
+          "speech": "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+gameData.items[1]+", a "+gameData.items[2]+" and a "+gameData.items[3]+". What do these things have in common?",
+          "displayText": "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+gameData.items[1]+", a "+gameData.items[2]+" and a "+gameData.items[3]+". What do these things have in common?",
           "data": {"test": "testdata"},
           "contextOut": [{"name":"TestContext", "lifespan":1, "parameters":{"answer":gameData.name}}],
           "source": "Calypso",
