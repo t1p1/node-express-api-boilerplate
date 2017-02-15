@@ -9,6 +9,11 @@ var Category = require("../models/model.js");
 var apiai = require('apiai');
 var apiapp = apiai(process.env.APIAI_TOKEN);
 
+
+var questions_g1 = [
+
+]
+
 // simple route to render am HTML form that can POST data to our server
 // NOTE that this is not a standard API route, and is really for testing
 router.get('/create-category', function(req,res){
@@ -82,7 +87,7 @@ router.post('/games/categories', function(req, res){
       ]
 
       var user_entities = [{
-          name: 'test-me',
+          name: 'game-1-answer',
           // sessionId: sessionId,
           extend: false,
           entries: entityEntries
