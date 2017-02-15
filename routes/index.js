@@ -35,10 +35,13 @@ router.get('/', function(req, res) {
 
 router.post('/games/categories', function(req, res){
 
+  console.log("HERE!");
+
   var sessionId = req.body.sessionId; 
   var action = req.body.action;
 
   if (action === 'game.1.start'){
+      console.log("GAME 1");
     // start game 1
     // get list of categories and choose one at random.
     // 
@@ -144,9 +147,11 @@ router.post('/games/categories', function(req, res){
     });
   }
   else if (action === 'game.2.start'){
+    console.log("HELLO game 2");
     // start game 2
   }else {
     // not sure what to do?  handle other actions.
+    console.log("Fack");
   }
 
 });
