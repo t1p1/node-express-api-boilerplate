@@ -40,70 +40,118 @@ router.post('/games/categories', function(req, res){
   console.log("////");
 
   var sessionId = req.body.sessionId; 
-  var user_entities = [{
-      name: 'test-me',
-      // sessionId: sessionId,
-      extend: false,
-      entries: [
-          {
-              value: 'Paco',
-              synonyms: ['Esteban']
-          },
-          {
-              value: 'Mary',
-              synonyms: ['Quite Contrary']
-          },
-          {
-              value: 'Erik',
-              synonyms: ['Thor']
-          }
-      ]
-  }];
+  var action = req.body.action;
 
-  var user_entities_body = {
-      sessionId: sessionId,
-      entities: user_entities
-  };
+  if (action === 'game.1.start'){
+    // start game 1
+    // get list of categories and choose one at random.
+    // 
+    Category.find({}, function(err,data){
 
-  var user_entities_request = apiapp.userEntitiesRequest(user_entities_body);
-
-  user_entities_request.on('response', function(response) {
-    console.log('User entities response: ');
-    console.log(response);
-
-    request(options, function (error, response, body) {
-      console.log("OUR GET REQUEST:")
-      if (!error && response.statusCode == 200) {
-        console.log("YAY WE HAVE SOMETHING");
-        console.log(body); 
-        res.json(body);
-      }else{
-        console.log("BOO WE HAVE NOTHING");
-        console.log(error);
-        res.json(error);
+      // if err or no category found, respond with error 
+      if(err || data == null){
+        var error = {status:'ERROR', message: 'Could not find that category'};
+         return res.json(error);
       }
-    })
 
-    // var request = apiapp.textRequest('Open application Firefox', {sessionId: "123"});
+      var randomIndex = getRandomInt(0, data.length - 1);
+      var gameData = data[randomIndex];
+      var resultItems = getRandomArrayElements(gameData.items, 4);
 
-    // request.on('response', function(response) {
-    //     console.log('Query response: ');
-    //     console.log(response);
-    // });
+      console.log("Game Items");
+      console.log(gameData.name);
+      console.log(resultItems);
 
-    // request.on('error', function(error) {
-    //     console.log("On Error:");
-    //     console.log(error);
-    // });
+      // var entries = [];
+      // for(var i = 0 ; i < resultItems.length; i++){
+      //   entries.push({value: resultItems[i]});
+      // }
 
-    //request.end();
-});
+      // console.log("DEBUG");
+      // console.log(entries);
+      // 
+      // send back to API.AI
+      // 
+      // 
+      
+      var entityEntries = [
+        {
+          value: gameData.name,
+          synonyms: [gameData.name.toLowerCase()]
+        }
+      ]
 
-user_entities_request.on('error', function(error) {
-    console.log(error);
-});
+      var user_entities = [{
+          name: 'test-me',
+          // sessionId: sessionId,
+          extend: false,
+          entries: entries
+      }];
 
-user_entities_request.end();
+      var user_entities_body = {
+          sessionId: sessionId,
+          entities: user_entities
+      };
+
+      var user_entities_request = apiapp.userEntitiesRequest(user_entities_body);
+
+      user_entities_request.on('response', function(response) {
+        console.log('User entities response: ');
+        console.log(response);
+
+        var newResponse = {
+          "speech": "This is just a test, here i'll send something nice",
+          "displayText": "testing testing testing.",
+          "data": {"test": "testdata"},
+          "contextOut": [{"name":"TestContext", "lifespan":1, "parameters":{"answer":gameData.name}}],
+          "source": "Calypso"
+        }
+
+        console.log(newResponse)
+
+        res.json(newResponse);
+
+        // request(options, function (error, response, body) {
+        //   console.log("OUR GET REQUEST:")
+        //   if (!error && response.statusCode == 200) {
+        //     console.log("YAY WE HAVE SOMETHING");
+        //     console.log(body); 
+        //     res.json(body);
+        //   }else{
+        //     console.log("BOO WE HAVE NOTHING");
+        //     console.log(error);
+        //     res.json(error);
+        //   }
+        // });
+
+        // var request = apiapp.textRequest('Open application Firefox', {sessionId: "123"});
+
+        // request.on('response', function(response) {
+        //     console.log('Query response: ');
+        //     console.log(response);
+        // });
+
+        // request.on('error', function(error) {
+        //     console.log("On Error:");
+        //     console.log(error);
+        // });
+
+        //request.end();
+    });
+
+    user_entities_request.on('error', function(error) {
+        console.log(error);
+    });
+
+    user_entities_request.end();
+    
+    });
+  }
+  else if (action === 'game.2.start'){
+    // start game 2
+  }else {
+    // not sure what to do?  handle other actions.
+  }
 
 
 var options = {
@@ -379,5 +427,22 @@ router.get('/api/delete/:id', function(req, res){
   })
 
 })
+
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getRandomArrayElements(arr, count) {
+    var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+    while (i-- > min) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(min);
+}
+
 
 module.exports = router;
