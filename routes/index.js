@@ -36,6 +36,7 @@ router.get('/', function(req, res) {
 router.post('/games/categories', function(req, res){
 
   console.log("HERE!");
+  console.log(req.body);
 
   var sessionId = req.body.sessionId; 
   var action = req.body.action;
