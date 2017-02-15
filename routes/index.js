@@ -56,7 +56,6 @@ router.post('/games/categories', function(req, res){
 
       var randomIndex = getRandomInt(0, data.length - 1);
       var gameData = data[randomIndex];
-      var resultItems = getRandomArrayElements(gameData.items, 4);
 
       console.log("Game Items");
       console.log(gameData.name);
@@ -100,12 +99,12 @@ router.post('/games/categories', function(req, res){
         console.log(response);
 
         var newResponse = {
-          "speech": "This is just a test, here i'll send something nice",
+          "speech": "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+gameData.items[1]+", a "+gameData.items[2]+" and a "+gameData.items[3]+". What do these things have in common?”",
           "displayText": "testing testing testing.",
           "data": {"test": "testdata"},
           "contextOut": [{"name":"TestContext", "lifespan":1, "parameters":{"answer":gameData.name}}],
           "source": "Calypso",
-          "followupEvent":{"name":"trigger_guess","data":{"test_param":"test"}}
+          "followupEvent":{"name":"trigger_guess","data":{"category":gameData.name}}
         }
 
         console.log(newResponse)
