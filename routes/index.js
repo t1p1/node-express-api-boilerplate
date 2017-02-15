@@ -10,10 +10,6 @@ var apiai = require('apiai');
 var apiapp = apiai(process.env.APIAI_TOKEN);
 
 
-var questions_g1 = [
-
-]
-
 // simple route to render am HTML form that can POST data to our server
 // NOTE that this is not a standard API route, and is really for testing
 router.get('/create-category', function(req,res){
@@ -62,10 +58,21 @@ router.post('/games/categories', function(req, res){
       var randomIndex = getRandomInt(0, data.length - 1);
       var gameData = data[randomIndex];
       var resultItems = getRandomArrayElements(gameData.items, 4);
+      var randomIndexQuestion = getRandomInt(0, questions_g1.length -1); 
 
-      console.log("Game Items");
-      console.log(gameData.name);
-      console.log(resultItems);
+      var questions_g1 = [
+        "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What do these things have in common?",
+        "Today, while I was rummaging around the recycling plant, I found a few things that look pretty similar. Can you help me categorize them? The items I found are: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What do you think these things have in common?",
+        "Help me categorize a few things. I’ll find some now! Let’s see ... (earcon: the sound of Calypso rummaging in a bin) I’ve got a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +", and a "+ gameData.items[3] +". What category do you think these things belong to?",
+        "Let’s try categorizing these things: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +", and a "+ gameData.items[3] +". These four things are all types of what?",
+        "You’re the purrrrfect person to help me categorize these things: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What category do all of these things belong to?",
+        "I find all kinds of things here at the recycling plant. You’ll never believe what I found today! I found a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +"! What category do these things belong to?",
+        "My eight arms are all scratching my head on this one. Can you help me figure out what category these things belong to? They are: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What do these things have in common?",
+        "This "+ gameData.items[0] +", this "+ gameData.items[1] +", this "+ gameData.items[2] +" and this "+ gameData.items[3] +" are all types of what?",
+        "What’s an eight-legged catipus to do!? I’ve found four things that I need help categorizing: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What category do you think these four things have belong to",
+        "I’ll be your best friend if you can help me figure out what category "+ gameData.items[0] +"s, "+ gameData.items[1] +"s, "+ gameData.items[2] +"s and "+ gameData.items[3] +"s all belong to. What do you think they have in common?"
+      ];
+
 
       // var entries = [];
       // for(var i = 0 ; i < resultItems.length; i++){
@@ -105,8 +112,8 @@ router.post('/games/categories', function(req, res){
         console.log(response);
 
         var newResponse = {
-          "speech": "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+gameData.items[1]+", a "+gameData.items[2]+" and a "+gameData.items[3]+". What do these things have in common?",
-          "displayText": "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+gameData.items[1]+", a "+gameData.items[2]+" and a "+gameData.items[3]+". What do these things have in common?",
+          "speech": questions_g1[randomIndexQuestion],
+          "displayText": questions_g1[randomIndexQuestion],
           "data": {"test": "testdata"},
           "contextOut": [{"name":"TestContext", "lifespan":1, "parameters":{"answer":gameData.name}}],
           "source": "Calypso",
