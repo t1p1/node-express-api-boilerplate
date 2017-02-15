@@ -35,10 +35,6 @@ router.get('/', function(req, res) {
 
 router.post('/games/categories', function(req, res){
 
-  console.log("DEBUG: webhook post body");
-  console.log(req.body);
-  console.log("////");
-
   var sessionId = req.body.sessionId; 
   var action = req.body.action;
 
