@@ -87,7 +87,7 @@ router.post('/games/categories', function(req, res){
       ]
 
       var user_entities = [{
-          name: 'game-1-answer',
+          name: 'game-1-answers',
           // sessionId: sessionId,
           extend: false,
           entries: entityEntries
