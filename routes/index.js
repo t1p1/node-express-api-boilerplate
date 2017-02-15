@@ -81,7 +81,7 @@ router.post('/games/categories', function(req, res){
           name: 'test-me',
           // sessionId: sessionId,
           extend: false,
-          entries: entries
+          entries: entityEntries
       }];
 
       var user_entities_body = {
@@ -148,15 +148,6 @@ router.post('/games/categories', function(req, res){
   }else {
     // not sure what to do?  handle other actions.
   }
-
-
-var options = {
-  url: 'https://api.api.ai/v1/userEntities/' + user_entities[0].name + '?sessionId=' + sessionId ,
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer 0ed8a24261504f2fafa95aaf6a07f8f3'
-  }
-};
 
 });
 
