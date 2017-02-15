@@ -152,8 +152,9 @@ router.post('/games/categories', function(req, res){
     
     });
   }
-  else if (action === 'game.2.start'){
-    console.log("HELLO game 2");
+  else if (action === 'game.1.answer'){
+    console.log("HELLO game.1.answer");
+    console.log
     // start game 2
   }else {
     // not sure what to do?  handle other actions.
