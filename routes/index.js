@@ -55,11 +55,6 @@ router.post('/games/categories', function(req, res){
          return res.json(error);
       }
 
-      var randomIndex = getRandomInt(0, data.length - 1);
-      var gameData = data[randomIndex];
-      var resultItems = getRandomArrayElements(gameData.items, 4);
-      var randomIndexQuestion = getRandomInt(0, questions_g1.length -1); 
-
       var questions_g1 = [
         "Thanks for helping meow-t! I found four things around the recycling plant. Can you help me categorize them? Here they are: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What do these things have in common?",
         "Today, while I was rummaging around the recycling plant, I found a few things that look pretty similar. Can you help me categorize them? The items I found are: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What do you think these things have in common?",
@@ -71,7 +66,14 @@ router.post('/games/categories', function(req, res){
         "This "+ gameData.items[0] +", this "+ gameData.items[1] +", this "+ gameData.items[2] +" and this "+ gameData.items[3] +" are all types of what?",
         "What’s an eight-legged catipus to do!? I’ve found four things that I need help categorizing: a "+ gameData.items[0] +", a "+ gameData.items[1] +", a "+ gameData.items[2] +" and a "+ gameData.items[3] +". What category do you think these four things have belong to",
         "I’ll be your best friend if you can help me figure out what category "+ gameData.items[0] +"s, "+ gameData.items[1] +"s, "+ gameData.items[2] +"s and "+ gameData.items[3] +"s all belong to. What do you think they have in common?"
-      ];
+      ]; 
+
+      var randomIndex = getRandomInt(0, data.length - 1);
+      var gameData = data[randomIndex];
+      var resultItems = getRandomArrayElements(gameData.items, 4);
+      var randomIndexQuestion = getRandomInt(0, questions_g1.length -1);
+
+
 
 
       // var entries = [];
