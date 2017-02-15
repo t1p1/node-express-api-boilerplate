@@ -104,7 +104,8 @@ router.post('/games/categories', function(req, res){
           "displayText": "testing testing testing.",
           "data": {"test": "testdata"},
           "contextOut": [{"name":"TestContext", "lifespan":1, "parameters":{"answer":gameData.name}}],
-          "source": "Calypso"
+          "source": "Calypso",
+          "followupEvent":{"name":"trigger_guess","data":{"test_param":"test"}}
         }
 
         console.log(newResponse)
