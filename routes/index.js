@@ -59,7 +59,6 @@ router.post('/games/categories', function(req, res){
 
       console.log("Game Items");
       console.log(gameData.name);
-      console.log(resultItems);
 
       // var entries = [];
       // for(var i = 0 ; i < resultItems.length; i++){
