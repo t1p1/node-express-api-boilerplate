@@ -118,7 +118,7 @@ router.post('/games/categories', function(req, res){
           "speech": questions_g1[randomIndexQuestion],
           "displayText": questions_g1[randomIndexQuestion],
           "data": {"test": "testdata"},
-          "contextOut": [{"name":"TestContext", "lifespan":1, "parameters":{"answer":gameData.name}}],
+          "contextOut": [{"name":"TestContext", "lifespan":3, "parameters":{"answer":gameData.name}}],
           "source": "Calypso",
         }
 
